@@ -1,0 +1,11 @@
+isEnabled: true
+name: '&8Grit'
+description:
+- '&7Take less damage when'
+- '&7below 50% health.'
+skillType: ARMOR
+bonusType: CONDITIONAL
+unlockTier: 3
+baseValue: 0.5
+scalingPerLevel: 0.01
+displayMaterial: LEATHER_CHESTPLATE

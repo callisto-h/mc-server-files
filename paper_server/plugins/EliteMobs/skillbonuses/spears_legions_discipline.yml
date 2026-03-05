@@ -1,0 +1,13 @@
+isEnabled: true
+name: '&bLegion''s Discipline'
+description:
+- '&7Consecutive hits increase'
+- '&7damage. Resets on miss.'
+skillType: SPEARS
+bonusType: STACKING
+unlockTier: 3
+baseValue: 1.0
+scalingPerLevel: 0.005
+maxStacks: 10
+stackBonus: 0.03
+displayMaterial: IRON_BARS

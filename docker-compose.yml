@@ -1,0 +1,57 @@
+services:
+  controller:
+    build: ./controller
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./paper_server:/paper_server
+    # environment:
+    #   - PAPER_CONTAINER=minecraft-paper_server-1
+    #   - VELOCITY_CONTAINER=minecraft-velocity_proxy-1
+    networks:
+      - internal
+
+  velocity:
+    build: ./velocity_proxy
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    ports:
+      - "25565:25565"
+    volumes:
+      - ./velocity_proxy:/server
+    environment:
+      - HEARTBEAT_KEY=${HEARTBEAT_KEY}
+      - FLY_URL=${FLY_URL}
+    depends_on:
+      - controller
+    networks:
+      - internal
+
+  paper:
+    build: ./paper_server
+    restart: no                                 # vane-admin handles shutdown
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./paper_server:/server
+    environment:
+      - RCON_PASSWORD=${RCON_PASSWORD}
+    networks:
+      - internal
+
+  squaremap:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./paper_server/plugins/squaremap/web:/usr/share/nginx/html:ro
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge

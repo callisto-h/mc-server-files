@@ -1,0 +1,12 @@
+isEnabled: true
+name: '&eJudgment'
+description:
+- '&7Mark enemies for judgment.'
+- '&7Marked targets take bonus damage.'
+skillType: MACES
+bonusType: PROC
+unlockTier: 2
+baseValue: 0.4
+scalingPerLevel: 0.005
+procChance: 0.2
+displayMaterial: SUNFLOWER

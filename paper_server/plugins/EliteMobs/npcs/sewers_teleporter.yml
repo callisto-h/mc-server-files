@@ -1,0 +1,15 @@
+isEnabled: true
+name: <g:#5A6A4A:#6A7A5A>Sewer Rat</g>
+role: <g:#4A5A3A:#5A6A4A><Sewers></g>
+spawnLocation: em_adventurers_guild,297.5,92,259.5,0,0
+spawnLocations: []
+greetings:
+- ''
+dialog: []
+farewell: []
+canTalk: true
+activationRadius: 1.0
+interactionType: COMMAND
+customModel: em_ag_sewerrat
+command: em dungeontp sewers_minidungeon.yml
+syncMovement: false

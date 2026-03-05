@@ -1,0 +1,15 @@
+isEnabled: true
+name: <g:#9A5A30:#AA6A40>Haunted Harbinger</g>
+role: <g:#8A4A20:#9A5A30><Hallosseum></g>
+spawnLocation: em_adventurers_guild,289.5,92,271.5,0,0
+spawnLocations: []
+greetings:
+- ''
+dialog: []
+farewell: []
+canTalk: true
+activationRadius: 1.0
+interactionType: COMMAND
+customModel: em_ag_hauntedharbinger
+command: em dungeontp hallosseum_lair.yml
+syncMovement: false

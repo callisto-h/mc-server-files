@@ -1,0 +1,12 @@
+isEnabled: true
+name: '&aSecond Wind'
+description:
+- '&7Heal when health drops'
+- '&7below 25%. 60s cooldown.'
+skillType: ARMOR
+bonusType: COOLDOWN
+unlockTier: 3
+baseValue: 1.0
+scalingPerLevel: 0.02
+cooldownSeconds: 60.0
+displayMaterial: GOLDEN_APPLE

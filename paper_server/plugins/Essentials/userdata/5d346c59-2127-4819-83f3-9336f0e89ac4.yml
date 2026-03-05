@@ -1,0 +1,30 @@
+teleportenabled: true
+teleportauto: false
+godmode: false
+muted: false
+jailed: false
+ip-address: 74.69.161.21
+afk: false
+socialspy: false
+npc: false
+powertoolsenabled: true
+accepting-pay: true
+baltop-exempt: false
+timestamps:
+  lastteleport: 0
+  lastheal: 0
+  mute: 0
+  jail: 0
+  onlinejail: 0
+  logout: 1772678580519
+  login: 1772678483679
+money: '0'
+last-account-name: Tsyomy
+logoutlocation:
+  world: f67f1b32-cb6c-4fe4-864e-30082f2d36e5
+  world-name: world
+  x: -83.71895312498884
+  y: 69.0
+  z: -37.67388204810668
+  yaw: 89.09990692138672
+  pitch: -2.7000296115875244

@@ -1,0 +1,1 @@
+/lpv user <USER> permission set vane_proxy.start_server.tng_survival true

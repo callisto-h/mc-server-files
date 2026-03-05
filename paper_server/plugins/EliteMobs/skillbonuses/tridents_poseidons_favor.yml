@@ -1,0 +1,12 @@
+isEnabled: true
+name: '&1Poseidon''s Favor'
+description:
+- '&7Gain aquatic buffs when'
+- '&7hitting enemies with trident.'
+- '&7(Best in water environments)'
+skillType: TRIDENTS
+bonusType: PASSIVE
+unlockTier: 2
+baseValue: 1.0
+scalingPerLevel: 0.02
+displayMaterial: CONDUIT

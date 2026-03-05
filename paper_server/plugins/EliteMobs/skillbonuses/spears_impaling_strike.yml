@@ -1,0 +1,12 @@
+isEnabled: true
+name: '&bImpaling Strike'
+description:
+- '&7Chance to cause bleed,'
+- '&7dealing damage over time.'
+skillType: SPEARS
+bonusType: PROC
+unlockTier: 2
+baseValue: 0.5
+scalingPerLevel: 0.01
+procChance: 0.15
+displayMaterial: REDSTONE

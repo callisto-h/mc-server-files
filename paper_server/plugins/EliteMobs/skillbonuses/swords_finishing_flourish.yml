@@ -1,0 +1,11 @@
+isEnabled: true
+name: '&cFinishing Flourish'
+description:
+- '&7Deal bonus damage to enemies'
+- '&7below 30% health.'
+skillType: SWORDS
+bonusType: CONDITIONAL
+unlockTier: 3
+baseValue: 0.5
+scalingPerLevel: 0.01
+displayMaterial: WITHER_SKELETON_SKULL

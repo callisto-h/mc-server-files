@@ -1,0 +1,11 @@
+isEnabled: true
+name: '&cOverdraw'
+description:
+- '&7Hold your bow longer for'
+- '&7increased damage.'
+skillType: BOWS
+bonusType: CONDITIONAL
+unlockTier: 2
+baseValue: 0.25
+scalingPerLevel: 0.005
+displayMaterial: BOW

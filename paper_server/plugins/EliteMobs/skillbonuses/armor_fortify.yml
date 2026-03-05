@@ -1,0 +1,11 @@
+isEnabled: true
+name: '&9Fortify'
+description:
+- '&7Taking damage builds stacks'
+- '&7that reduce future damage.'
+skillType: ARMOR
+bonusType: STACKING
+unlockTier: 3
+baseValue: 1.0
+scalingPerLevel: 0.02
+displayMaterial: DIAMOND_CHESTPLATE

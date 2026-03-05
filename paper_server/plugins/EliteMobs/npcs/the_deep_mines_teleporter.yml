@@ -1,0 +1,15 @@
+isEnabled: true
+name: <g:#8A4A3A:#9A5A4A>Nether Lurk</g>
+role: <g:#7A3A2A:#8A4A3A><The Deep Mines></g>
+spawnLocation: em_adventurers_guild,301.4,78,201.3,0,0
+spawnLocations: []
+greetings:
+- ''
+dialog: []
+farewell: []
+canTalk: true
+activationRadius: 1.0
+interactionType: COMMAND
+customModel: em_ag_netherlurk
+command: em dungeontp the_deep_mines_dungeon.yml
+syncMovement: false

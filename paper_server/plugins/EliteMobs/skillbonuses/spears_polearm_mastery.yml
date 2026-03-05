@@ -1,0 +1,11 @@
+isEnabled: true
+name: '&b&lPolearm Mastery'
+description:
+- '&7Significant attack speed'
+- '&7and damage increase.'
+skillType: SPEARS
+bonusType: PASSIVE
+unlockTier: 4
+baseValue: 0.2
+scalingPerLevel: 0.003
+displayMaterial: TRIDENT

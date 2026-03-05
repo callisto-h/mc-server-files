@@ -1,0 +1,11 @@
+isEnabled: true
+name: '&bPhalanx'
+description:
+- '&7Reduced damage from'
+- '&7frontal attacks.'
+skillType: SPEARS
+bonusType: PASSIVE
+unlockTier: 2
+baseValue: 0.15
+scalingPerLevel: 0.002
+displayMaterial: SHIELD

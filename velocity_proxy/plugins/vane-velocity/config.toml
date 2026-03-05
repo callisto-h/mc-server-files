@@ -1,0 +1,37 @@
+[auth_multiplex]
+
+    # Define your auth multiplexers
+    # These allow the specified UUIDs to join the server
+    # multiple times with a fake UUID. IDs must be > 0.
+
+    # Example:
+    #
+    # [auth_multiplex.ID_NUMBER]
+    # port = 25566
+    # allowed_uuids = ["b4a6717f-e3ab-4348-8e18-022827ef3177"]
+    #
+    # (Where ID_NUMBER is a nonzero integer)
+    #
+    # This will allow *only* UUID "b4a6717f-e3ab-4348-8e18-022827ef3177"
+    # to use this multiplexer. You can add as many UUIDs as you want.
+    #
+    # To make it public, leave out the `allowed_uuids` field.
+    #
+    # It is *not* possible to have multiple multiplexers on the same port.
+
+[managed_servers.tng_survival]
+
+display_name = "§6> §6§lTuesday Night Gaming Survival§6 <"
+
+    [managed_servers.tng_survival.online]
+    motd = "{SERVER_DISPLAY_NAME}\n§aOnline§7 | {QUOTE}"
+    quotes = ["Shuts down after 15 minutes empty"]
+
+    [managed_servers.tng_survival.offline]
+    motd = "{SERVER_DISPLAY_NAME}\n§cOffline§7 | {QUOTE}"
+    quotes = ["Join to start server"]
+
+    [managed_servers.tng_survival.start]
+    cmd = ["/server/start_server.sh"]
+    timeout = 30
+    kick_msg = "{SERVER_DISPLAY_NAME} §7is being started.\n§7Try again in §b60 Seconds§7 \\(^-^)/"

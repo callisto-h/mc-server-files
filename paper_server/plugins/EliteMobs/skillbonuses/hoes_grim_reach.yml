@@ -1,0 +1,11 @@
+isEnabled: true
+name: '&7Grim Reach'
+description:
+- '&7Extended attack range'
+- '&7with your scythe.'
+skillType: HOES
+bonusType: PASSIVE
+unlockTier: 1
+baseValue: 0.5
+scalingPerLevel: 0.01
+displayMaterial: IRON_HOE

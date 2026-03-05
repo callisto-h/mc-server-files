@@ -1,0 +1,15 @@
+isEnabled: true
+name: <g:#9A5A3A:#AA6A4A>Nether Shroom</g>
+role: <g:#8A4A2A:#9A5A3A><The Nether Wastes></g>
+spawnLocation: em_adventurers_guild,299.5,78,201.5,0,0
+spawnLocations: []
+greetings:
+- ''
+dialog: []
+farewell: []
+canTalk: true
+activationRadius: 1.0
+interactionType: COMMAND
+customModel: em_ag_nethershroom
+command: em dungeontp the_nether_wastes_dungeon.yml
+syncMovement: false

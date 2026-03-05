@@ -1,0 +1,11 @@
+isEnabled: true
+name: '&6Reap What You Sow'
+description:
+- '&7Deal more damage when'
+- '&7your health is low.'
+skillType: HOES
+bonusType: CONDITIONAL
+unlockTier: 3
+baseValue: 0.5
+scalingPerLevel: 0.01
+displayMaterial: GOLDEN_HOE

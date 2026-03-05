@@ -1,0 +1,12 @@
+isEnabled: true
+name: '&eConsecration'
+description:
+- '&7Create holy ground that'
+- '&7damages enemies within. 25s CD.'
+skillType: MACES
+bonusType: COOLDOWN
+unlockTier: 3
+baseValue: 0.5
+scalingPerLevel: 0.01
+cooldownSeconds: 25.0
+displayMaterial: GLOWSTONE

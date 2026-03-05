@@ -1,0 +1,15 @@
+isEnabled: true
+name: <g:#5A8A5A:#6A9A6A>Norse Guide</g>
+role: <g:#4A7A4A:#5A8A5A><Yggdrasil></g>
+spawnLocation: em_adventurers_guild,288.5,92,288.5,-90,0
+spawnLocations: []
+greetings:
+- ''
+dialog: []
+farewell: []
+canTalk: true
+activationRadius: 1.0
+interactionType: COMMAND
+customModel: em_ag_norseguide
+command: em dungeontp yggdrasil_realm.yml
+syncMovement: false

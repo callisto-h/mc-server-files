@@ -1,0 +1,15 @@
+isEnabled: true
+name: <g:#9A8A7A:#AA9A8A>Ruinwarden</g>
+role: <g:#8A7A6A:#9A8A7A><The Ruins></g>
+spawnLocation: em_adventurers_guild,302.7,92,292.5,-90,0
+spawnLocations: []
+greetings:
+- ''
+dialog: []
+farewell: []
+canTalk: true
+activationRadius: 1.0
+interactionType: COMMAND
+customModel: em_ag_ruinwarden
+command: em dungeontp the_ruins.yml
+syncMovement: false

@@ -1,0 +1,11 @@
+isEnabled: true
+name: '&eStunning Force'
+description:
+- '&7Increased knockback.'
+- '&7Chance to root enemies.'
+skillType: MACES
+bonusType: PASSIVE
+unlockTier: 3
+baseValue: 1.5
+scalingPerLevel: 0.02
+displayMaterial: IRON_BARS

@@ -1,0 +1,30 @@
+teleportenabled: true
+teleportauto: false
+godmode: false
+muted: false
+jailed: false
+ip-address: 75.177.177.202
+afk: false
+socialspy: false
+npc: false
+powertoolsenabled: true
+accepting-pay: true
+baltop-exempt: false
+timestamps:
+  lastteleport: 0
+  lastheal: 0
+  mute: 0
+  jail: 0
+  onlinejail: 0
+  logout: 1772412890401
+  login: 1772407312458
+money: '0'
+last-account-name: aubulas
+logoutlocation:
+  world: f67f1b32-cb6c-4fe4-864e-30082f2d36e5
+  world-name: world
+  x: -198.7691870635712
+  y: 9.692562999617829
+  z: -425.65299884654206
+  yaw: 136.34222412109375
+  pitch: -7.566629409790039

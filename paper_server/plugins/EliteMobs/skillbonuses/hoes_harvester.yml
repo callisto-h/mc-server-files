@@ -1,0 +1,11 @@
+isEnabled: true
+name: '&aHarvester'
+description:
+- '&7Increased loot drops'
+- '&7from slain enemies.'
+skillType: HOES
+bonusType: PASSIVE
+unlockTier: 2
+baseValue: 0.25
+scalingPerLevel: 0.005
+displayMaterial: WHEAT

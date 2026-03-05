@@ -1,0 +1,15 @@
+isEnabled: true
+name: <g:#7A5A8A:#8A6A9A>Grove Keeper</g>
+role: <g:#6A4A7A:#7A5A8A><Under Grove></g>
+spawnLocation: em_adventurers_guild,293.5,92,309.5,-180,0
+spawnLocations: []
+greetings:
+- ''
+dialog: []
+farewell: []
+canTalk: true
+activationRadius: 1.0
+interactionType: COMMAND
+customModel: em_ag_grovekeeper
+command: em dungeontp under_grove_lair.yml
+syncMovement: false

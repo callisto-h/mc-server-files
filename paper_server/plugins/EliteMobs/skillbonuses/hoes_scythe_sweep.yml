@@ -1,0 +1,12 @@
+isEnabled: true
+name: '&cScythe Sweep'
+description:
+- '&7Chance to sweep attack'
+- '&7all nearby enemies.'
+skillType: HOES
+bonusType: PROC
+unlockTier: 3
+baseValue: 0.5
+scalingPerLevel: 0.01
+procChance: 0.3
+displayMaterial: DIAMOND_HOE

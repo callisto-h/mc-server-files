@@ -1,0 +1,15 @@
+isEnabled: true
+name: <g:#6A6A6A:#7A7A7A>Miner Regulus</g>
+role: <g:#5A5A5A:#6A6A6A><The Climb></g>
+spawnLocation: em_adventurers_guild,308.4,78,208.4,90,0
+spawnLocations: []
+greetings:
+- ''
+dialog: []
+farewell: []
+canTalk: true
+activationRadius: 1.0
+interactionType: COMMAND
+customModel: em_ag_minerregulus
+command: em dungeontp the_climb_dungeon.yml
+syncMovement: false

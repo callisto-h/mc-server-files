@@ -1,0 +1,30 @@
+teleportenabled: true
+teleportauto: false
+godmode: false
+muted: false
+jailed: false
+ip-address: 24.59.100.16
+afk: false
+socialspy: false
+npc: false
+powertoolsenabled: true
+accepting-pay: true
+baltop-exempt: false
+timestamps:
+  lastteleport: 0
+  lastheal: 0
+  mute: 0
+  jail: 0
+  onlinejail: 0
+  logout: 1772594624239
+  login: 1772587812484
+money: '0'
+last-account-name: SolarScape72
+logoutlocation:
+  world: f67f1b32-cb6c-4fe4-864e-30082f2d36e5
+  world-name: world
+  x: -84.80520510246565
+  y: 73.0
+  z: -33.75561092723196
+  yaw: 169.0814208984375
+  pitch: 27.033994674682617

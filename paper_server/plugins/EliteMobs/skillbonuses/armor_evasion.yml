@@ -1,0 +1,12 @@
+isEnabled: true
+name: '&fEvasion'
+description:
+- '&7Chance to completely'
+- '&7dodge incoming attacks.'
+skillType: ARMOR
+bonusType: PROC
+unlockTier: 1
+baseValue: 1.0
+scalingPerLevel: 0.02
+procChance: 0.1
+displayMaterial: FEATHER

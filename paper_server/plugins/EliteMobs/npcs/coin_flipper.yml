@@ -1,0 +1,24 @@
+isEnabled: true
+name: <g:#9A7A40:#AA8A50>Lucky Pete</g>
+role: <g:#8A6A30:#9A7A40><Coin Flipper></g>
+spawnLocation: em_adventurers_guild,298.5,81,211.5,45,0
+spawnLocations: []
+greetings:
+- Heads or tails? Simple as that!
+- Flip a coin, double your money!
+- Feeling lucky, adventurer?
+- A simple coin flip can change your fortune!
+dialog:
+- 50/50 chance, pure luck!
+- Pick your side wisely...
+- The coin decides all.
+- Fortune favors the bold!
+farewell:
+- May fortune smile upon you!
+- Better luck next time!
+- The coin awaits your return!
+- Heads... or tails... which will it be?
+canTalk: true
+activationRadius: 3.0
+interactionType: GAMBLING_COINFLIP
+syncMovement: true

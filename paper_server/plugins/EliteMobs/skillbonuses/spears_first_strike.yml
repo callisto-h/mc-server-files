@@ -1,0 +1,11 @@
+isEnabled: true
+name: '&bFirst Strike'
+description:
+- '&7Deal bonus damage to'
+- '&7full-health enemies.'
+skillType: SPEARS
+bonusType: PASSIVE
+unlockTier: 1
+baseValue: 0.3
+scalingPerLevel: 0.005
+displayMaterial: IRON_SWORD

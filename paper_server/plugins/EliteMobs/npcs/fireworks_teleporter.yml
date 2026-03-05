@@ -1,0 +1,15 @@
+isEnabled: true
+name: <g:#AA7A40:#BA8A50>Pyrotechnician Pete</g>
+role: <g:#9A6A30:#AA7A40><Fireworks></g>
+spawnLocation: em_adventurers_guild,299.5,92,265.5,90,0
+spawnLocations: []
+greetings:
+- ''
+dialog: []
+farewell: []
+canTalk: true
+activationRadius: 1.0
+interactionType: COMMAND
+customModel: em_ag_pyrotechnicianpete
+command: em dungeontp fireworks_lair.yml
+syncMovement: false

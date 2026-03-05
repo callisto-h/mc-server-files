@@ -1,0 +1,11 @@
+isEnabled: true
+name: '&2Timber!'
+description:
+- '&7Bonus damage and hits'
+- '&7disable enemy shields.'
+skillType: AXES
+bonusType: PASSIVE
+unlockTier: 4
+baseValue: 0.2
+scalingPerLevel: 0.004
+displayMaterial: OAK_LOG

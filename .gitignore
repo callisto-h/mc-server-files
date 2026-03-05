@@ -1,0 +1,34 @@
+# Java jars
+*.jar
+
+# World data
+paper_server/world/
+paper_server/world_nether/
+paper_server/world_the_end/
+
+# Logs
+paper_server/logs/
+velocity_proxy/logs/
+
+# Cache and libraries
+paper_server/cache/
+paper_server/libraries/
+paper_server/versions/
+
+# Backups
+paper_server/backups/
+
+# Crash reports
+paper_server/crash-reports/
+
+# Secrets
+.env
+velocity_proxy/forwarding.secret
+
+# Plugin data (optional — comment out if you want to track plugin configs)
+# paper_server/plugins/
+
+# Python
+__pycache__/
+*.pyc
+.venv/

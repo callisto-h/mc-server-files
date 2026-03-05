@@ -1,0 +1,15 @@
+isEnabled: true
+name: <g:#4A7A9A:#5A8AAA>Sea Dog</g>
+role: <g:#3A6A8A:#4A7A9A><Pirate Ship></g>
+spawnLocation: em_adventurers_guild,302.7,92,288.5,-90,0
+spawnLocations: []
+greetings:
+- ''
+dialog: []
+farewell: []
+canTalk: true
+activationRadius: 1.0
+interactionType: COMMAND
+customModel: em_ag_seadog
+command: em dungeontp pirate_ship_minidungeon.yml
+syncMovement: false

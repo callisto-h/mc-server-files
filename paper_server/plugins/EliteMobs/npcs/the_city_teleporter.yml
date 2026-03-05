@@ -1,0 +1,15 @@
+isEnabled: true
+name: <g:#7A5A4A:#8A6A5A>Dwarf Olav</g>
+role: <g:#6A4A3A:#7A5A4A><The City></g>
+spawnLocation: em_adventurers_guild,307.4,78,201.4,0,0
+spawnLocations: []
+greetings:
+- ''
+dialog: []
+farewell: []
+canTalk: true
+activationRadius: 1.0
+interactionType: COMMAND
+customModel: em_ag_dwarfolav
+command: em dungeontp the_city_dungeon.yml
+syncMovement: false

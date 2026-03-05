@@ -1,0 +1,15 @@
+isEnabled: true
+name: <g:#A89040:#B8A050>Royal Guard Sven</g>
+role: <g:#988030:#A89040><The Palace></g>
+spawnLocation: em_adventurers_guild,305.4,78,201.3,0,0
+spawnLocations: []
+greetings:
+- ''
+dialog: []
+farewell: []
+canTalk: true
+activationRadius: 1.0
+interactionType: COMMAND
+customModel: em_ag_royalguardsven
+command: em dungeontp the_palace_sanctum.yml
+syncMovement: false

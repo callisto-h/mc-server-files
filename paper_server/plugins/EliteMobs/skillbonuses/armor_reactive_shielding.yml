@@ -1,0 +1,12 @@
+isEnabled: true
+name: '&bReactive Shielding'
+description:
+- '&7Big hits activate a shield'
+- '&7that reduces damage. 30s CD.'
+skillType: ARMOR
+bonusType: COOLDOWN
+unlockTier: 4
+baseValue: 1.0
+scalingPerLevel: 0.02
+cooldownSeconds: 30.0
+displayMaterial: SHIELD

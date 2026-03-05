@@ -1,0 +1,104 @@
+# ################################################
+# DriveBackupV2   -   by Max Maeder (MaxTheGinus)
+# ################################################
+
+# DOCUMENTATION HAS MOVED
+# Now available online at: https://github.com/MaxMaeder/DriveBackupV2/wiki
+
+version: 2
+
+delay: 120
+backup-thread-priority: 1
+keep-count: 12
+local-keep-count: 1
+zip-compression: 1
+backups-require-players: true
+disable-saving-during-backups: true
+
+scheduled-backups: false
+
+backup-list:
+#worlds
+# - glob: ../paper_server/world*
+#   format: Backup-paper_server-%NAME-%FORMAT.zip
+#   create: true
+# - path: ../paper_server/plugins
+#   format: Backup-paper_server-plugins-%FORMAT.zip
+#   create: true
+#paper scripts and files and plugins
+- path: "../paper_server"
+  format: Backup-paper_server-files-%FORMAT.zip
+  create: true
+  blacklist:
+  - "backups/**"
+  - "cache/**"
+  - "config/**"
+  - "crash-reports/**"
+  - "libraries/**"
+  - "logs/**"
+  - "versions/**"
+  - "*.jar"
+#velocity plugins
+- path: ../velocity_proxy/plugins
+  format: Backup-velocity_proxy-plugins-%FORMAT.zip
+  create: true
+#velocity scripts and files
+- path: ../velocity_proxy
+  format: Backup-velocity_proxy-files-%FORMAT.zip
+  create: true
+  blacklist:
+  - ".venv/**"
+  - "lang/**"
+  - "logs/**"
+  - "*.jar"
+
+
+local-save-directory: backups
+remote-save-directory: backups
+
+googledrive:
+  enabled: true
+  shared-drive-id: ''
+onedrive:
+  enabled: false
+dropbox:
+  enabled: false
+webdav:
+  enabled: false
+  hostname: http://example.com/directory
+  username: Username
+  password: Password
+nextcloud:
+  enabled: false
+  hostname: https://example.com/remote.php/dav/files/user/
+  username: Username
+  password: Password
+  chunk-size: 20000000
+s3:
+  enabled: false
+  endpoint: https://s3.us-west-2.amazonaws.com
+  access-key: AKIAxxxxxxxxxxxxxxxx
+  secret-key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  bucket: bucket
+ftp:
+  enabled: false
+  hostname: ftp.example.com
+  port: 21
+  sftp: false
+  ftps: false
+  username: Username
+  password: Password
+
+messages:
+  send-in-chat: true
+  prefix: '&6[&4DriveBackupV2&6] '
+  default-color: '&3'
+
+advanced:
+  metrics: true
+  update-check: true
+  suppress-errors: false
+  debug: false
+  date-language: en
+  date-timezone: -00:00
+  ftp-file-separator: /

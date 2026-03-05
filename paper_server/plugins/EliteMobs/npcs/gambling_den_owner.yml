@@ -1,0 +1,24 @@
+isEnabled: true
+name: <g:#9A7A40:#AA8A50>The Baron</g>
+role: <g:#8A6A30:#9A7A40><Gambling Den Owner></g>
+spawnLocation: em_adventurers_guild,286.5,81,231.5,-90,0
+spawnLocations: []
+greetings:
+- Welcome to my humble establishment!
+- The house always wins, they say...
+- Care to test your luck today?
+- Fortune favors the bold!
+dialog:
+- My dealers are the best in the realm!
+- Blackjack, slots, cards... take your pick!
+- Don't worry about debt, we're... flexible.
+- The odds are fair, I promise!
+farewell:
+- Come back soon, I enjoy your... patronage.
+- May luck be on your side! Or not...
+- The tables will be waiting!
+- 'Remember: you can''t win if you don''t play!'
+canTalk: true
+activationRadius: 3.0
+interactionType: CHAT
+syncMovement: true

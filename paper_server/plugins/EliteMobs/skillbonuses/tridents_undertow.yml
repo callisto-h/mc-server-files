@@ -1,0 +1,12 @@
+isEnabled: true
+name: '&8Undertow'
+description:
+- '&7Chance to pull enemies'
+- '&7toward you.'
+skillType: TRIDENTS
+bonusType: PROC
+unlockTier: 3
+baseValue: 1.0
+scalingPerLevel: 0.02
+procChance: 0.2
+displayMaterial: FISHING_ROD

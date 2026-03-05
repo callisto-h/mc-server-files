@@ -1,0 +1,12 @@
+isEnabled: true
+name: '&eCrushing Blow'
+description:
+- '&7Chance to ignore enemy'
+- '&7armor on hit.'
+skillType: MACES
+bonusType: PROC
+unlockTier: 1
+baseValue: 0.25
+scalingPerLevel: 0.003
+procChance: 0.12
+displayMaterial: ANVIL

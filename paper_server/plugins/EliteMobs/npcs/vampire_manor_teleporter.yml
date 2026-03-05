@@ -1,0 +1,15 @@
+isEnabled: true
+name: <g:#6A2A2A:#7A3A3A>Blood Servant</g>
+role: <g:#5A1A1A:#6A2A2A><Vampire Manor></g>
+spawnLocation: em_adventurers_guild,298.5,92,288.5,90,0
+spawnLocations: []
+greetings:
+- ''
+dialog: []
+farewell: []
+canTalk: true
+activationRadius: 1.0
+interactionType: COMMAND
+customModel: em_ag_bloodservant
+command: em dungeontp vampire_manor_lair.yml
+syncMovement: false
