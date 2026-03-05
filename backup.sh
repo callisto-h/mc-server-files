@@ -1,10 +1,14 @@
 #!/bin/sh
 
 # ── Configuration ──────────────────────────────────────────────────────────────
-SRC="/home/callisto/minecraft/paper_server"           # Paper server directory
-DST="/mnt/backups/minecraft"                   # HDD destination
-KEEP=10                                        # Number of snapshots to keep
-LOG="/var/log/mc_backup.log"
+SRC="/home/callisto/minecraft/mc-server-files/paper_server"
+TEMP_DIR="/home/callisto/minecraft/temp"
+LOCAL_DST="/mnt/backups/minecraft"
+DRIVE_DST="remote:backups"
+KEEP_LOCAL=10
+KEEP_DRIVE=3
+LOG="/home/callisto/minecraft/logs/backup.log"
+CONTROLLER_URL="http://localhost:5000"
 # ───────────────────────────────────────────────────────────────────────────────
 
 log() {
@@ -12,38 +16,94 @@ log() {
 }
 
 TIMESTAMP=$(date '+%Y-%m-%d_%H-%M-%S')
-SNAPSHOT="$DST/snapshot_$TIMESTAMP"
+ZIPFILE="snapshot_$TIMESTAMP.zip"
+TEMP_ZIP="$TEMP_DIR/$ZIPFILE"
 
-log "Starting backup — $SNAPSHOT"
+mkdir -p "$TEMP_DIR"
+mkdir -p "$LOCAL_DST"
+mkdir -p "$(dirname $LOG)"
 
-mkdir -p "$DST"
+log "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+log "Starting backup — $TIMESTAMP"
 
-# Flush world data to disk before copying
-log "Sending save-all via controller"
-curl -s -X POST http://localhost:5000/save && sleep 3
-log "Proceeding with backup"
+# ── Save-all via controller ────────────────────────────────────────────────────
+log "Sending save-all to Paper"
+curl -s -X POST "$CONTROLLER_URL/save" >> "$LOG" 2>&1
+sleep 3
 
-# Copy entire server directory as a timestamped snapshot
-cp -r "$SRC" "$SNAPSHOT"
+# ── Zip world files to temp on SSD ────────────────────────────────────────────
+log "Zipping world files to temp — $TEMP_ZIP"
+zip -r "$TEMP_ZIP" \
+    "$SRC/world" \
+    "$SRC/world_nether" \
+    "$SRC/world_the_end" \
+    >> "$LOG" 2>&1
 
-if [ $? -eq 0 ]; then
-    log "Backup complete — $(du -sh $SNAPSHOT | cut -f1)"
-else
-    log "ERROR: Backup failed"
+if [ $? -ne 0 ]; then
+    log "ERROR: Zip failed"
+    rm -f "$TEMP_ZIP"
     exit 1
 fi
+log "Zip complete — $(du -sh $TEMP_ZIP | cut -f1)"
 
-# Count snapshots and remove oldest beyond KEEP limit
-COUNT=$(ls -1d "$DST"/snapshot_* 2>/dev/null | wc -l)
-log "HDD has $COUNT snapshots (keeping $KEEP)"
+# ── Copy zip to HDD ───────────────────────────────────────────────────────────
+log "Copying to HDD — $LOCAL_DST/$ZIPFILE"
+cp "$TEMP_ZIP" "$LOCAL_DST/$ZIPFILE"
 
-if [ "$COUNT" -gt "$KEEP" ]; then
-    DELETE=$((COUNT - KEEP))
-    log "Removing $DELETE oldest snapshot(s)"
-    ls -1dt "$DST"/snapshot_* | tail -n "$DELETE" | while read f; do
+if [ $? -ne 0 ]; then
+    log "ERROR: HDD copy failed"
+else
+    log "HDD copy complete"
+fi
+
+# Prune old local backups
+COUNT=$(ls -1 "$LOCAL_DST"/snapshot_*.zip 2>/dev/null | wc -l)
+log "HDD: $COUNT backups (keeping $KEEP_LOCAL)"
+if [ "$COUNT" -gt "$KEEP_LOCAL" ]; then
+    DELETE=$((COUNT - KEEP_LOCAL))
+    log "Removing $DELETE oldest HDD backup(s)"
+    ls -1t "$LOCAL_DST"/snapshot_*.zip | tail -n "$DELETE" | while read f; do
         log "Deleting $f"
-        rm -rf "$f"
+        rm -f "$f"
     done
 fi
 
-log "Done"
+# ── Upload to Google Drive from temp ──────────────────────────────────────────
+log "Uploading to Google Drive — $DRIVE_DST/$ZIPFILE"
+rclone copy "$TEMP_ZIP" "$DRIVE_DST/" \
+    --progress \
+    --transfers 4 \
+    --drive-chunk-size 128M \
+    >> "$LOG" 2>&1
+
+if [ $? -ne 0 ]; then
+    log "ERROR: Google Drive upload failed"
+else
+    log "Google Drive upload complete"
+fi
+
+# Prune old Drive backups
+log "Pruning old Drive backups (keeping $KEEP_DRIVE)"
+DRIVE_BACKUPS=$(rclone ls "$DRIVE_DST" 2>/dev/null \
+    | awk '{print $NF}' \
+    | grep "^snapshot_.*\.zip$" \
+    | sort)
+
+DRIVE_COUNT=$(echo "$DRIVE_BACKUPS" | grep -c "snapshot_" 2>/dev/null || echo 0)
+log "Drive: $DRIVE_COUNT backups"
+
+if [ "$DRIVE_COUNT" -gt "$KEEP_DRIVE" ]; then
+    DELETE=$((DRIVE_COUNT - KEEP_DRIVE))
+    log "Removing $DELETE oldest Drive backup(s)"
+    echo "$DRIVE_BACKUPS" | head -n "$DELETE" | while read f; do
+        log "Deleting Drive: $f"
+        rclone deletefile "$DRIVE_DST/$f" >> "$LOG" 2>&1
+    done
+fi
+
+# ── Clean up temp ─────────────────────────────────────────────────────────────
+log "Cleaning up temp"
+rm -f "$TEMP_ZIP"
+
+log "Backup complete"
+log "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
