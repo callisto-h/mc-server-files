@@ -7,9 +7,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./paper_server:/paper_server
-    # environment:
-    #   - PAPER_CONTAINER=minecraft-paper_server-1
-    #   - VELOCITY_CONTAINER=minecraft-velocity_proxy-1
+    environment:
+      - PAPER_CONTAINER=mc-server-files-paper-1
+      - VELOCITY_CONTAINER=mc-server-files-velocity-1
     networks:
       - internal
 

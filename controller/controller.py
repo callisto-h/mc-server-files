@@ -15,11 +15,11 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 # ── Configuration ──────────────────────────────────────────────────────────────
-PAPER_CONTAINER    = "minecraft-paper-1"
-VELOCITY_CONTAINER = "minecraft-velocity-1"
+PAPER_CONTAINER    = os.environ.get("PAPER_CONTAINER")
+VELOCITY_CONTAINER = os.environ.get("VELOCITY_CONTAINER")
 PAPER_HOST         = "paper"
 PAPER_PORT         = 25575
-STARTUP_TIMEOUT    = 120  # seconds to wait for Paper to be ready
+STARTUP_TIMEOUT    = 60  # seconds to wait for Paper to be ready
 # ───────────────────────────────────────────────────────────────────────────────
 
 app           = Flask(__name__)
