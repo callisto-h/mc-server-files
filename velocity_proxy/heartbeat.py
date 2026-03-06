@@ -19,7 +19,7 @@ log = logging.getLogger(__name__)
 FLY_URL        = os.environ["FLY_URL"]
 HEARTBEAT_KEY  = os.environ["HEARTBEAT_KEY"]
 MC_HOST        = "paper"       # Docker service name
-MC_PORT        = 25565
+MC_PORT        = 25575
 CHECK_INTERVAL = 60
 # ───────────────────────────────────────────────────────────────────────────────
 
