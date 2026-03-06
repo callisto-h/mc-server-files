@@ -1,13 +1,5 @@
 #!/bin/sh
 
-# Inject RCON password from environment into server.properties
-if [ -n "$RCON_PASSWORD" ]; then
-    sed -i "s/^rcon.password=.*/rcon.password=$RCON_PASSWORD/" /server/server.properties
-    echo "RCON password injected"
-else
-    echo "WARNING: RCON_PASSWORD not set"
-fi
-
 # Start Paper
 exec java -Xms4G -Xmx10G \
   -XX:+UseG1GC -XX:+ParallelRefProcEnabled \

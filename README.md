@@ -164,17 +164,13 @@ This calls the controller which: looks up the Mojang UUID, runs `whitelist add` 
 
 ### Backups
 
-Backups run automatically via cron at 4am daily:
-```
-0 4 * * * /home/callisto/minecraft/mc-server-files/backup.sh
-```
+Backups run automatically via cron at 4am daily.
 
 The script:
 1. Sends `save-all` to Paper via the controller
 2. Zips the three world directories to a temp file on the SSD
-3. Copies the zip to `/mnt/backups/minecraft/` (HDD), keeping the last 10
-4. Uploads the zip to Google Drive (`remote:minecraft-backups`), keeping the last 1
-5. Deletes the temp file
+3. Copies the zip to local storage (HDD), keeping the last 10
+4. Uploads the zip to Google Drive (`remote:minecraft-backups`), keeping the last 3
 
 To run manually:
 ```sh
@@ -220,11 +216,11 @@ cd mc-server-files
 
 ### 2. Populate secrets
 
-Create `.env` and `velocity_proxy/forwarding.secret` as described in the Secrets section above. Make sure `paper_server/config/paper-global.yml` matches the forwarding secret.
+Create `.env` and `velocity_proxy/forwarding.secret` as described in the Secrets section above. Make sure `paper_server/config/paper-global.yml` matches the forwarding secret. Check the Velocity Proxy setup page for more details.
 
 ### 3. Restore world files from Google Drive
 
-Go to [Google Drive](https://drive.google.com) and navigate to the `minecraft-backups` folder. Download the most recent `snapshot_YYYY-MM-DD_HH-MM-SS.zip` file.
+Go to [Google Drive](https://drive.google.com/drive/folders/1q1wQFGsYtjz5pzV7XfvGVbW0ic2190LV?usp=drive_link). Download the most recent `snapshot_YYYY-MM-DD_HH-MM-SS.zip` file.
 
 Extract the world folders into the paper_server directory:
 ```sh
@@ -236,16 +232,52 @@ Verify you have all three world folders:
 ls paper_server/world paper_server/world_nether paper_server/world_the_end
 ```
 
-### 4. Mount the HDD (optional, for backups)
+### 4. Update the backup script (optional, for backups)
 
+Update the following variables in `backup.sh` to match your system:
+
+| Variable | Description |
+|----------|-------------|
+| `SRC` | Path to the paper_server directory containing the world folders |
+| `TEMP_DIR` | Staging directory where the zip is created before upload |
+| `LOCAL_DST` | Destination where zipped snapshots are stored |
+| `DRIVE_DST` | Google Drive remote and folder name as configured in rclone |
+| `KEEP_LOCAL` | Number of snapshots to retain on local before deleting the oldest |
+| `KEEP_DRIVE` | Number of snapshots to retain on Google Drive — keep this low if on a free 15GB account |
+| `LOG` | Path to the backup log file |
+| `CONTROLLER_URL` | URL of the controller — only change this if running the controller on a non-standard port |
+
+Install rclone to handle Google Drive uploads:
 ```sh
-sudo mkdir -p /mnt/backups
-# Add to /etc/fstab:
-# UUID=your-uuid /mnt/backups exfat defaults,uid=1000,gid=1000 0 2
-sudo mount /mnt/backups
+curl https://rclone.org/install.sh | sudo bash
+rclone config
 ```
 
-### 5. Build and start
+During `rclone config`, create a new remote of type `drive`, name it `remote` (or update `DRIVE_DST` to match whatever name you choose), and follow the OAuth flow to authenticate with your Google account. Once configured, test it with:
+```sh
+rclone lsd remote:
+```
+
+### 5. Retrieve missing .jar files
+
+`.jar` files are Java executables — they are the server software itself and all of its plugins. They are not included in this repo due to their size, but all are freely available to download.
+
+**Server and proxy jars** — download and place in the correct directory:
+
+| Jar | Download | Destination |
+|-----|----------|-------------|
+| PaperMC | [papermc.io/downloads](https://papermc.io/downloads) | `paper_server/` |
+| Velocity | [papermc.io/downloads/velocity](https://papermc.io/downloads/velocity) | `velocity_proxy/` |
+
+Make sure to download the same versions that were previously running. The exact filenames are recorded in `paper_server/README.md` and `velocity_proxy/` directory listing.
+
+**Plugin jars** — a list of all previously installed plugins is recorded in:
+- `paper_server/plugins/jars.txt` — Paper plugins, download from [hangar.papermc.io](https://hangar.papermc.io)
+- `velocity_proxy/plugins/jars.txt` — Velocity plugins, download from [hangar.papermc.io](https://hangar.papermc.io)
+
+Place downloaded Paper plugin jars in `paper_server/plugins/` and Velocity plugin jars in `velocity_proxy/plugins/`.
+
+### 6. Build and start
 
 ```sh
 docker compose build
@@ -253,19 +285,30 @@ docker compose up -d controller velocity squaremap
 docker compose create paper
 ```
 
-### 6. Forward ports on your router
+### 7. Forward ports on your router
 
 | Port | Service |
 |------|---------|
 | 25565 | Minecraft (Velocity) |
 | 8080 | Squaremap live map |
 
-### 7. Set up backup cron
+### 8. Set up backup cron
 
 ```sh
 sudo crontab -e
-# Add: 0 4 * * * /home/callisto/minecraft/mc-server-files/backup.sh
+# Add: 0 4 * * * /path/to/backup.sh
 ```
+
+### 9. Adjust memory allocation
+
+The Paper container is configured to use between 4GB and 10GB of RAM. These values are set in `paper_server/start.sh`:
+```sh
+-Xms4G -Xmx10G
+```
+
+`-Xms` is the amount of memory reserved on startup, and `-Xmx` is the maximum it can grow to. Adjust these to match the available RAM on your host machine, keeping in mind that the OS, Docker, and the Velocity and controller containers also need headroom.
+
+If you update these values you will need to rebuild the `paper` container with `docker compose build` and `docker compose create paper`.
 
 ---
 
