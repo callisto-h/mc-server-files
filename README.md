@@ -114,9 +114,10 @@ proxies:
 
 ### Prerequisites
 
-- Debian (or any Linux with Docker)
-- Docker + Docker Compose
-- HDD mounted at `/mnt/backups` (for backups)
+- Docker
+- Paper (MC Server) .jar
+- Velocity (MC Proxy) .jar
+- MC World files (either use mine or generate your own)
 
 Install Docker:
 ```sh
