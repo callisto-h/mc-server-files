@@ -38,7 +38,7 @@ Internet
 
 **Controller** is a small Flask app that has access to the Docker socket. It is the only container that can start or stop Paper. It also handles player whitelisting — looking up UUIDs from the Mojang API, running `whitelist add` on Paper via docker exec, and granting LuckPerms permissions on Velocity via docker exec. It exposes port 5000 to the host only.
 
-**Squaremap** serves the live map as a static nginx container. It has no runtime connection to Paper — it simply reads files that Paper writes to disk.
+**Squaremap** serves the live world map on port 8080 via nginx. When Paper is running, nginx proxies requests directly to the squaremap plugin's built-in web server for live player positions and real-time updates. When Paper is offline, nginx automatically falls back to serving the last known static map files from disk. The controller watches for Paper start/stop events via the Docker events API and switches the nginx config between live and static mode accordingly.
 
 **Heartbeat** is a Python script that runs inside the Velocity container. Every 60 seconds it checks the player count and POSTs to a Fly.io-hosted Discord bot, which updates the bot's presence to show server status and player count.
 
@@ -65,6 +65,10 @@ mc-server-files/
 │   ├── velocity.toml        # proxy config
 │   ├── forwarding.secret    # NOT in repo — see Secrets section [!IMPORTANT!]
 │   └── plugins/
+├── squaremap/
+│   ├── live.conf        # nginx config — proxies to Paper's built-in web server
+│   ├── static.conf      # nginx config — serves static files from disk
+│   └── default.conf     # active config, swapped by controller on Paper start/stop
 └── paper_server/
     ├── Dockerfile
     ├── start.sh             # starts Paper
@@ -74,6 +78,7 @@ mc-server-files/
     ├── world/               # NOT in repo — restore from Google Drive
     ├── world_nether/        # NOT in repo — restore from Google Drive
     └── world_the_end/       # NOT in repo — restore from Google Drive
+    
 ```
 
 ---
@@ -286,21 +291,30 @@ docker compose up -d controller velocity squaremap
 docker compose create paper
 ```
 
-### 7. Forward ports on your router
+### 7. Set up the squaremap nginx config
+
+The squaremap container uses a switchable nginx config to serve the live map when Paper is running and fall back to static files when it is offline. Create the initial active config as a copy of the static config:
+```sh
+cp squaremap/static.conf squaremap/default.conf
+```
+
+The controller will automatically switch this to `live.conf` when Paper starts and back to `static.conf` when it stops. You do not need to manage this manually after the initial setup.
+
+### 8. Forward ports on your router
 
 | Port | Service |
 |------|---------|
 | 25565 | Minecraft (Velocity) |
 | 8080 | Squaremap live map |
 
-### 8. Set up backup cron
+### 9. Set up backup cron
 
 ```sh
 sudo crontab -e
 # Add: 0 4 * * * /path/to/backup.sh
 ```
 
-### 9. Adjust memory allocation
+### 10. Adjust memory allocation
 
 The Paper container is configured to use between 4GB and 10GB of RAM. These values are set in `paper_server/start.sh`:
 ```sh
