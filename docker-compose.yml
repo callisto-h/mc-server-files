@@ -7,6 +7,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./paper_server:/paper_server
+      - ./squaremap:/nginx
     environment:
       - PAPER_CONTAINER=mc-server-files-paper-1
       - VELOCITY_CONTAINER=mc-server-files-velocity-1
@@ -49,9 +50,10 @@ services:
       - "8080:80"
     volumes:
       - ./paper_server/plugins/squaremap/web:/usr/share/nginx/html:ro
+      - ./squaremap:/nginx
+      - ./squaremap/static.conf:/etc/nginx/conf.d/default.conf
     networks:
       - internal
-
 networks:
   internal:
     driver: bridge

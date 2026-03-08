@@ -2,6 +2,7 @@ import os
 import time
 import socket
 import logging
+import threading
 import requests
 import docker
 from flask import Flask, jsonify
@@ -15,16 +16,20 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 # ── Configuration ──────────────────────────────────────────────────────────────
-PAPER_CONTAINER    = os.environ.get("PAPER_CONTAINER")
-VELOCITY_CONTAINER = os.environ.get("VELOCITY_CONTAINER")
-PAPER_HOST         = "paper"
-PAPER_PORT         = 25575
-STARTUP_TIMEOUT    = 60  # seconds to wait for Paper to be ready
+PAPER_CONTAINER     = os.environ.get("PAPER_CONTAINER",     "mc-server-files-paper-1")
+VELOCITY_CONTAINER  = os.environ.get("VELOCITY_CONTAINER",  "mc-server-files-velocity-1")
+SQUAREMAP_CONTAINER = os.environ.get("SQUAREMAP_CONTAINER", "mc-server-files-squaremap-1")
+PAPER_HOST          = "paper"
+PAPER_PORT          = 25575
+STARTUP_TIMEOUT     = 120
+NGINX_DIR           = "/nginx"
 # ───────────────────────────────────────────────────────────────────────────────
 
 app           = Flask(__name__)
 docker_client = docker.from_env()
 
+
+# ── Container helpers ──────────────────────────────────────────────────────────
 
 def get_paper_container():
     try:
@@ -38,6 +43,16 @@ def get_velocity_container():
         return docker_client.containers.get(VELOCITY_CONTAINER)
     except docker.errors.NotFound:
         return None
+
+
+def get_squaremap_container():
+    try:
+        return docker_client.containers.get(SQUAREMAP_CONTAINER)
+    except docker.errors.NotFound:
+        return None
+
+
+# ── Console helpers ────────────────────────────────────────────────────────────
 
 def paper_exec(command: str) -> str:
     """Send a command to the Paper console via stdin attach."""
@@ -55,6 +70,7 @@ def paper_exec(command: str) -> str:
         log.error(f"Paper stdin failed for '{command}': {e}")
         return ""
 
+
 def velocity_exec(command: str) -> str:
     """Send a command to the Velocity console via stdin attach."""
     container = get_velocity_container()
@@ -70,6 +86,33 @@ def velocity_exec(command: str) -> str:
     except Exception as e:
         log.error(f"Velocity stdin failed for '{command}': {e}")
         return ""
+
+
+# ── Nginx helpers ──────────────────────────────────────────────────────────────
+
+def set_nginx_mode(live: bool):
+    """Switch squaremap nginx between live proxy and static file serving."""
+    mode = "live" if live else "static"
+    src  = f"{NGINX_DIR}/{mode}.conf"
+    dst  = f"{NGINX_DIR}/default.conf"
+    try:
+        with open(src) as f:
+            config = f.read()
+        with open(dst, "w") as f:
+            f.write(config)
+        log.info(f"Nginx config set to {mode}")
+
+        squaremap = get_squaremap_container()
+        if squaremap and squaremap.status == "running":
+            squaremap.exec_run("nginx -s reload")
+            log.info("Nginx reloaded")
+        else:
+            log.warning("Squaremap container not running, skipping nginx reload")
+    except Exception as e:
+        log.error(f"Failed to set nginx mode: {e}")
+
+
+# ── Paper startup helpers ──────────────────────────────────────────────────────
 
 def wait_for_paper(timeout: int = STARTUP_TIMEOUT) -> bool:
     """Poll Paper's port until it accepts connections or timeout."""
@@ -93,12 +136,31 @@ def ensure_paper_running() -> bool:
     if container is None:
         log.error(f"Container '{PAPER_CONTAINER}' not found")
         return False
-
     if container.status != "running":
         log.info("Paper not running — starting it")
         container.start()
-
     return wait_for_paper()
+
+
+# ── Docker event watcher ───────────────────────────────────────────────────────
+
+def watch_paper_events():
+    """Watch for Paper container events and switch nginx mode automatically."""
+    log.info("Starting Docker event watcher")
+    while True:
+        try:
+            for event in docker_client.events(decode=True, filters={"container": PAPER_CONTAINER}):
+                action = event.get("Action")
+                log.info(f"Paper container event: {action}")
+                if action in ("stop", "die", "kill"):
+                    log.info("Paper stopped — switching nginx to static mode")
+                    set_nginx_mode(live=False)
+                elif action == "start":
+                    log.info("Paper started — switching nginx to live mode")
+                    set_nginx_mode(live=True)
+        except Exception as e:
+            log.error(f"Event watcher error: {e}, restarting in 5s")
+            time.sleep(5)
 
 
 # ── Routes ─────────────────────────────────────────────────────────────────────
@@ -191,15 +253,19 @@ def save():
 
 @app.route("/health")
 def health():
-    paper    = get_paper_container()
-    velocity = get_velocity_container()
+    paper     = get_paper_container()
+    velocity  = get_velocity_container()
+    squaremap = get_squaremap_container()
     return jsonify({
-        "ok":      True,
-        "paper":    paper.status if paper else "not found",
-        "velocity": velocity.status if velocity else "not found",
+        "ok":        True,
+        "paper":     paper.status     if paper     else "not found",
+        "velocity":  velocity.status  if velocity  else "not found",
+        "squaremap": squaremap.status if squaremap else "not found",
     })
 
 
 if __name__ == "__main__":
     log.info("Controller starting")
+    watcher = threading.Thread(target=watch_paper_events, daemon=True)
+    watcher.start()
     app.run(host="0.0.0.0", port=5000)
